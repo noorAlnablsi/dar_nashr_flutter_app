@@ -36,6 +36,7 @@ class RegisterService {
       if (response.statusCode == 200) {
         print("تم التسجيل بنجاح: ${response.data}");
         return true;
+        
       } else {
         print("فشل التسجيل: ${response.statusCode}");
         return false;

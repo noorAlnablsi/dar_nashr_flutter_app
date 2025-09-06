@@ -25,4 +25,4 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, home: InitPage());
   }
 }
-String url = "https://project2copyrepo-16.onrender.com";
+String url = "https://project2copyrepo-18.onrender.com";

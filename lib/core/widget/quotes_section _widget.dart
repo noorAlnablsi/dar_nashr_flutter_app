@@ -256,8 +256,8 @@ class _QuotesSectionState extends State<QuotesSection> {
                 child: const Text(
                   "إضافة اقتباس",
                   style: TextStyle(
-                    fontSize: 12,
-                    color: AppColors.secondary,
+                    fontSize: 13,
+                    color: AppColors.onPrimary,
                     decoration: TextDecoration.underline,
                     decorationColor: AppColors.secondary,
                     decorationThickness: 1,
