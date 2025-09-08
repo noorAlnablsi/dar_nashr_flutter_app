@@ -1,5 +1,7 @@
 
 import 'package:dar_nashr/pages/Jobs/job_opportunities.dart';
+import 'package:dar_nashr/pages/homepages/Drawer/app_drawer_page.dart';
+import 'package:dar_nashr/pages/homepages/authers_page.dart';
 import 'package:dar_nashr/pages/profile/ProfilePage.dart';
 import 'package:dar_nashr/pages/publisher/publisher_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +23,8 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
     JobOpportunitiesPage(), 
     PublishersPage(), 
     Placeholder(), 
-   ProfilePage(), 
+  AuthorsPage(), 
+
   ];
 
   void _onItemTapped(int index) {
@@ -33,6 +36,7 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AppDrawer(),
       backgroundColor: AppColors.lightGray,
       body: Directionality(
         textDirection: TextDirection.rtl,
@@ -64,8 +68,8 @@ class _MainNavigationPageState extends State<MainNavigationPage> {
             label: 'المفضلة',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'الحساب',
+            icon: Icon(Icons.people),
+            label: 'الكتّاب',
           ),
         ],
       ),
