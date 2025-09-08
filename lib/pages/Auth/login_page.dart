@@ -3,6 +3,7 @@ import 'package:dar_nashr/core/widget/app_button.dart';
 import 'package:dar_nashr/core/widget/app_textfield.dart';
 import 'package:dar_nashr/core/widget/row_login_register.dart';
 import 'package:dar_nashr/models/login_model.dart';
+import 'package:dar_nashr/pages/Auth/interests_page.dart';
 import 'package:dar_nashr/pages/Auth/new_password_page.dart';
 import 'package:dar_nashr/pages/Auth/signup_page.dart';
 import 'package:dar_nashr/pages/homepages/home_page.dart';
@@ -155,7 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                               Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => MainNavigationPage(),
+                                  builder: (context) => InterestsPage(),
                                 ),
                               );
                             } else {

@@ -337,6 +337,7 @@ import 'package:dar_nashr/main.dart';
 import 'package:dar_nashr/models/book_model.dart';
 import 'package:dar_nashr/pages/homepages/book/pdf_reader.dart';
 import 'package:dar_nashr/services/comment_service.dart';
+import 'package:dar_nashr/services/report_service.dart';
 import 'package:dio/dio.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
@@ -729,6 +730,72 @@ class _BookDetailsMobileState extends State<BookDetailsMobile> {
                           separatorBuilder: (_, __) => const Divider(),
                           itemCount: _comments.length,
                         ),
+
+
+                        // أسفل قسم التعليقات
+const SizedBox(height: 24),
+ElevatedButton.icon(
+  icon: const Icon(Icons.report, color: AppColors.buttonText),
+  label: const Text('إبلاغ عن الكتاب', style: TextStyle(color: AppColors.buttonText)),
+  style: ElevatedButton.styleFrom(
+    backgroundColor: Colors.red[700],
+    minimumSize: const Size.fromHeight(48),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+  ),
+  onPressed: () async {
+    String reason = '';
+    String description = '';
+
+    await showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('إبلاغ عن الكتاب'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              decoration: const InputDecoration(hintText: 'السبب'),
+              onChanged: (v) => reason = v,
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              decoration: const InputDecoration(hintText: 'الوصف'),
+              onChanged: (v) => description = v,
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('إلغاء')),
+          ElevatedButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('إرسال'),
+          ),
+        ],
+      ),
+    );
+
+    if (reason.trim().isEmpty || description.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('الرجاء ملء جميع الحقول'), backgroundColor: Colors.red),
+      );
+      return;
+    }
+
+    final success = await ReportService.sendReport(
+      bookId: widget.book.id,
+      reason: reason.trim(),
+      description: description.trim(),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(success ? 'تم إرسال الإبلاغ بنجاح' : 'فشل إرسال الإبلاغ'),
+        backgroundColor: success ? Colors.green : Colors.red,
+      ),
+    );
+  },
+),
+
             ],
           ),
         ),

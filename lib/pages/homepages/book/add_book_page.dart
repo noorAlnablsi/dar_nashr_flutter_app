@@ -104,6 +104,12 @@ class _AddBookPageState extends State<AddBookPage> {
     if (success) {
       Navigator.pop(context);
     }
+
+
+    if (success) {
+  Navigator.pop(context, true); // ✅ رجعنا true عشان الصفحة الرئيسية تعرف انه في كتاب جديد
+}
+
   }
 
   @override

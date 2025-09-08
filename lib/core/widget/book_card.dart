@@ -15,7 +15,7 @@ class BookCard extends StatefulWidget {
 
 class _BookCardState extends State<BookCard> {
   bool isFav = false;
-  final BookService _bookService = BookService();
+  final BookServiceFav _bookService = BookServiceFav();
 
   String _fullUrl(String? path) {
     if (path == null || path.isEmpty) return '';

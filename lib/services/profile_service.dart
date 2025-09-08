@@ -1,3 +1,6 @@
+
+
+// import 'package:dar_nashr/main.dart';
 // import 'package:dio/dio.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,7 +18,7 @@
 //       if (token == null) throw Exception("Token not found");
 
 //       final response = await _dio.get(
-//         'https://project2copyrepo-12.onrender.com/users/me',
+//         '$url/users/me',
 //         options: Options(
 //           headers: {
 //             "accept": "application/json",
@@ -34,43 +37,45 @@
 //     }
 //   }
 
+//   Future<Map<String, dynamic>> updateProfile({
+//     String? bio,
+//     String? socialLinks,
+//   }) async {
+//     try {
+//       final token = await _getToken();
+//       if (token == null) throw Exception("Token not found");
 
-
-// Future<Map<String, dynamic>> updateProfile({
-//   String? bio,
-//   String? socialLinks,
-// }) async {
-//   try {
-//     final token = await _getToken();
-//     if (token == null) throw Exception("Token not found");
-
-//     final response = await _dio.put(
-//       'https://project2copyrepo-12.onrender.com/users/me',
-//       data: {
-//         if (bio != null) 'bio': bio,
-//         if (socialLinks != null) 'social_links': socialLinks,
-//       },
-//       options: Options(
-//         headers: {
-//           "accept": "application/json",
-//           "Authorization": "Bearer $token",
-//           "Content-Type": "application/x-www-form-urlencoded",
+//       final response = await _dio.put(
+//         'https://project2copyrepo-15.onrender.com/users/me',
+//         data: {
+//           if (bio != null) 'bio': bio,
+//           if (socialLinks != null) 'social_links': socialLinks,
 //         },
-//       ),
-//     );
+//         options: Options(
+//           headers: {
+//             "accept": "application/json",
+//             "Authorization": "Bearer $token",
+//             "Content-Type": "application/x-www-form-urlencoded",
+//           },
+//         ),
+//       );
 
-//     if (response.statusCode == 200) {
-//       return response.data;
-//     } else {
-//       throw Exception("Failed to update profile");
+//       if (response.statusCode == 200) {
+//         return response.data;
+//       } else {
+//         throw Exception("Failed to update profile");
+//       }
+//     } catch (e) {
+//       rethrow;
 //     }
-//   } catch (e) {
-//     rethrow;
 //   }
 // }
-// }
 
 
+
+
+
+// services/profile_service.dart
 import 'package:dar_nashr/main.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -99,7 +104,7 @@ class ProfileService {
       );
 
       if (response.statusCode == 200) {
-        return response.data;
+        return Map<String, dynamic>.from(response.data);
       } else {
         throw Exception("Failed to fetch profile");
       }
@@ -117,7 +122,7 @@ class ProfileService {
       if (token == null) throw Exception("Token not found");
 
       final response = await _dio.put(
-        'https://project2copyrepo-15.onrender.com/users/me',
+        '$url/users/me',
         data: {
           if (bio != null) 'bio': bio,
           if (socialLinks != null) 'social_links': socialLinks,
@@ -132,10 +137,33 @@ class ProfileService {
       );
 
       if (response.statusCode == 200) {
-        return response.data;
+        return Map<String, dynamic>.from(response.data);
       } else {
         throw Exception("Failed to update profile");
       }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  /// === New: upgrade user to writer ===
+  /// Returns true on success.
+  Future<bool> upgradeToWriter() async {
+    try {
+      final token = await _getToken();
+      if (token == null) throw Exception("Token not found");
+
+      final response = await _dio.post(
+        '$url/upgrade-to-writer',
+        options: Options(
+          headers: {
+            "accept": "application/json",
+            "Authorization": "Bearer $token",
+          },
+        ),
+      );
+
+      return response.statusCode == 200;
     } catch (e) {
       rethrow;
     }

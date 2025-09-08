@@ -91,6 +91,11 @@
 
 
 
+
+
+
+// QuoteCard.dart
+
 import 'package:dar_nashr/models/qoute_model.com';
 import 'package:dar_nashr/models/quote_model.dart';
 import 'package:dar_nashr/services/qoute_service.dart';
@@ -108,13 +113,14 @@ class QuoteCard extends StatefulWidget {
 
 class _QuoteCardState extends State<QuoteCard> {
   bool isLiked = false;
+  int likeCount = 0; // ✅ عدد اللايكات
   final QuoteService _quoteService = QuoteService();
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // إذا بدك، ممكن تتحقق من هل المستخدم حب الاقتباس سابقًا
-  // }
+  @override
+  void initState() {
+    super.initState();
+    likeCount = widget.quote.numberOfLikes; // ✅ تهيئة عدد اللايكات من الباك
+  }
 
   Future<void> _toggleLike() async {
     try {
@@ -123,15 +129,16 @@ class _QuoteCardState extends State<QuoteCard> {
       if (success) {
         setState(() {
           isLiked = !isLiked;
+          // ✅ تحديث العدد
+          likeCount = isLiked ? likeCount + 1 : likeCount - 1;
         });
 
-        // تشغيل أي دالة خارجية (مثل تحديث الاقتباسات)
         if (widget.onLike != null) widget.onLike!();
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              isLiked ? "تم الإعجاب بالاقتباس ✅" : "تم إلغاء الإعجاب ❌",
+              isLiked ? "تم الإعجاب بالاقتباس ✅" : "تم إلغاء الإعجاب ",
             ),
             backgroundColor: isLiked ? Colors.green : Colors.red,
             duration: const Duration(seconds: 2),
@@ -168,7 +175,7 @@ class _QuoteCardState extends State<QuoteCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // اسم المستخدم + زر لايك
+          // اسم المستخدم + زر لايك + عدد لايكات ✅
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -180,13 +187,26 @@ class _QuoteCardState extends State<QuoteCard> {
                   color: Color(0xff1D2A45),
                 ),
               ),
-              GestureDetector(
-                onTap: _toggleLike,
-                child: Icon(
-                  isLiked ? Icons.favorite : Icons.favorite_border,
-                  color: const Color(0xff731F28),
-                  size: 20,
-                ),
+              Row(
+                children: [
+                  GestureDetector(
+                    onTap: _toggleLike,
+                    child: Icon(
+                      isLiked ? Icons.favorite : Icons.favorite_border,
+                      color: const Color(0xff731F28),
+                      size: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    "$likeCount", // ✅ العدد
+                    style: const TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xff731F28),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -215,6 +235,7 @@ class _QuoteCardState extends State<QuoteCard> {
               fontWeight: FontWeight.w600,
               color: Color(0xff731F28),
             ),
+            softWrap: true,
           ),
         ],
       ),
@@ -224,15 +245,31 @@ class _QuoteCardState extends State<QuoteCard> {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// import 'package:dar_nashr/models/qoute_model.com';
 // import 'package:dar_nashr/models/quote_model.dart';
 // import 'package:dar_nashr/services/qoute_service.dart';
 // import 'package:flutter/material.dart';
 
-
 // class QuoteCard extends StatefulWidget {
 //   final Quote quote;
+//   final VoidCallback? onLike;
 
-//   const QuoteCard({super.key, required this.quote});
+//   const QuoteCard({super.key, required this.quote, this.onLike});
 
 //   @override
 //   State<QuoteCard> createState() => _QuoteCardState();
@@ -241,6 +278,12 @@ class _QuoteCardState extends State<QuoteCard> {
 // class _QuoteCardState extends State<QuoteCard> {
 //   bool isLiked = false;
 //   final QuoteService _quoteService = QuoteService();
+
+//   // @override
+//   // void initState() {
+//   //   super.initState();
+//   //   // إذا بدك، ممكن تتحقق من هل المستخدم حب الاقتباس سابقًا
+//   // }
 
 //   Future<void> _toggleLike() async {
 //     try {
@@ -251,10 +294,13 @@ class _QuoteCardState extends State<QuoteCard> {
 //           isLiked = !isLiked;
 //         });
 
+//         // تشغيل أي دالة خارجية (مثل تحديث الاقتباسات)
+//         if (widget.onLike != null) widget.onLike!();
+
 //         ScaffoldMessenger.of(context).showSnackBar(
 //           SnackBar(
 //             content: Text(
-//               isLiked ? "تم الإعجاب بالاقتباس ✅" : "تم إلغاء الإعجاب ❌",
+//               isLiked ? "تم الإعجاب بالاقتباس ✅" : "تم إلغاء الإعجاب ",
 //             ),
 //             backgroundColor: isLiked ? Colors.green : Colors.red,
 //             duration: const Duration(seconds: 2),
@@ -291,7 +337,7 @@ class _QuoteCardState extends State<QuoteCard> {
 //       child: Column(
 //         crossAxisAlignment: CrossAxisAlignment.start,
 //         children: [
-//           // ✅ اسم المستخدم + زر لايك
+//           // اسم المستخدم + زر لايك
 //           Row(
 //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
 //             children: [
@@ -315,12 +361,12 @@ class _QuoteCardState extends State<QuoteCard> {
 //           ),
 //           const SizedBox(height: 9),
 
-//           // ✅ نص الاقتباس
+//           // نص الاقتباس
 //           Text(
 //             widget.quote.text,
 //             style: const TextStyle(
 //               fontWeight: FontWeight.bold,
-//               fontSize: 14,
+//               fontSize: 13,
 //               height: 1.3,
 //               color: Color(0xff1D2A45),
 //             ),
@@ -330,17 +376,20 @@ class _QuoteCardState extends State<QuoteCard> {
 
 //           const Spacer(),
 
-//           // ✅ اسم الكتاب
+//           // اسم الكتاب
 //           Text(
 //             widget.quote.bookName,
 //             style: const TextStyle(
 //               fontSize: 12,
+              
 //               fontWeight: FontWeight.w600,
 //               color: Color(0xff731F28),
-//             ),
+//             ), softWrap: true,
 //           ),
 //         ],
 //       ),
 //     );
 //   }
 // }
+
+

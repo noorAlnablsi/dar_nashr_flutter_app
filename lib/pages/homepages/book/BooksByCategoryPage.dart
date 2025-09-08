@@ -346,19 +346,36 @@ class _BooksByCategoryPageState extends State<BooksByCategoryPage> {
         ],
       ),
 
-      // ✅ زر الإضافة يظهر فقط إذا المستخدم كاتب
+      // // ✅ زر الإضافة يظهر فقط إذا المستخدم كاتب
+      // floatingActionButton: userRole == 'writer'
+      //     ? FloatingActionButton(
+      //         onPressed: () {
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(builder: (_) => const AddBookPage()),
+      //           );
+      //         },
+      //         child: const Icon(Icons.add),
+      //         tooltip: "نشر كتاب",
+      //       )
+
       floatingActionButton: userRole == 'writer'
-          ? FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const AddBookPage()),
-                );
-              },
-              child: const Icon(Icons.add),
-              tooltip: "نشر كتاب",
-            )
-          : null,
+    ? FloatingActionButton(
+        onPressed: () async {
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const AddBookPage()),
+          );
+          if (result == true) {
+            fetchBooks(); // ✅ إعادة تحميل الكتب مباشرة بعد النشر
+          }
+        },
+        child: const Icon(Icons.add),
+        tooltip: "نشر كتاب",
+      )
+    : null,
+
+        
 
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,4 +1,5 @@
 import 'package:dar_nashr/core/resources/color.dart';
+import 'package:dar_nashr/core/widget/advertisement_section.dart';
 import 'package:dar_nashr/core/widget/books_section_widget.dart';
 import 'package:dar_nashr/core/widget/custom_top_bar.dart';
 import 'package:dar_nashr/core/widget/publishers_section_widget.dart';
@@ -24,6 +25,8 @@ class HomePage extends StatelessWidget {
           Gap(12),
           SearchBarWidget(),
           Gap(24),
+           AdvertisementSection(), 
+           Gap(15),
           QuotesSection(),
           Gap(24),
           BooksSection(),

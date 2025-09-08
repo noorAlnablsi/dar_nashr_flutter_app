@@ -2,7 +2,7 @@ import 'package:dar_nashr/main.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class BookService {
+class BookServiceFav {
   final Dio _dio = Dio();
 
   Future<String?> _getToken() async {
